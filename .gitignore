@@ -1,0 +1,23 @@
+# Build output. Note: dist/ is deliberately tracked — it is the published build
+# the README points users at. Only intermediate output is ignored here.
+[Bb]in/
+[Oo]bj/
+
+# Export run output: CSVs, checkpoint and delta high-water-mark state.
+# Anchored to dist/ on purpose — a bare "export/" also matches the source
+# directory src/AprimoExport/Export/ on case-insensitive filesystems.
+/dist/export/
+*.csv
+.aprimo-export-checkpoint.json
+delta-state.json
+
+# Local credential overrides — never commit real tenant/client values.
+appsettings.local.json
+*.user
+
+# Editor / OS noise
+.vs/
+.idea/
+*.swp
+Thumbs.db
+desktop.ini

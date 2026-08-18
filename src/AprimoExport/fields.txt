@@ -1,0 +1,68 @@
+# Aprimo DAM export - CSV column list
+#
+# Field names may be separated by newlines, commas, semicolons or tabs - mix freely.
+# A bare name is a metadata field:      Brand          -> column Brand,    path field:Brand
+#                                       Alt Text       -> column Alt_Text, path field:Alt Text
+# Use 'Column => path' for anything else, including record properties.
+# '#' and '//' start a comment, but only at line start or after whitespace, since real
+# field names can contain '#' (e.g. a field literally named Photo#2).
+#
+# Column headers follow Aprimo's own outputName rule: whitespace becomes '_', and
+# anything outside [A-Za-z0-9_] is dropped. So 'Approved?' becomes 'Approved'.
+#
+# An Aprimo Data Exports schema XML file (<exportSourceConfiguration>) is also accepted
+# in place of this file - point FieldsFile or --fields-file at it and every column is
+# derived automatically. That is the quickest way to match an existing Aprimo export.
+
+# ---------------------------------------------------------------------------
+# Record properties. These exist on every tenant, per the API's Record schema.
+# ---------------------------------------------------------------------------
+RecordId     => id
+Title        => title
+Status       => status
+ContentType  => contentType
+Tag          => tag
+AiInfluenced => aiInfluenced
+CreatedOn    => createdOn
+ModifiedOn   => modifiedOn
+
+# createdBy / modifiedBy are typed as bare objects in the OpenAPI spec, with no
+# properties defined, so the real shape is unknown until you see a response. These
+# fallback chains try the likely names in order and take the first that resolves.
+# Run --sample, then pin whichever one hits so a future API change shows an empty
+# column instead of silently sliding to a different property.
+# Requires 'createdby,modifiedby' in Source.SelectRecord.
+CreatedBy    => createdBy.name || createdBy.fullName || createdBy.userName || createdBy.id
+ModifiedBy   => modifiedBy.name || modifiedBy.fullName || modifiedBy.userName || modifiedBy.id
+
+# ---------------------------------------------------------------------------
+# Master file details.
+# Requires 'masterfilelatestversion' in Source.SelectRecord.
+# ---------------------------------------------------------------------------
+FileName      => masterFileLatestVersion.fileName
+FileExtension => masterFileLatestVersion.fileExtension
+FileSizeBytes => masterFileLatestVersion.fileSize
+FileVersion   => masterFileLatestVersion.versionNumber
+FileState     => masterFileLatestVersion.fileState
+
+# ---------------------------------------------------------------------------
+# Metadata fields - replace the examples below with your own.
+#
+# To discover what exists in your tenant:
+#   GET /fielddefinitions            lists every field; 'name' is what goes here
+#   aprimo-export --sample 1000      shows which of your mappings actually resolve
+#
+# Requires 'fields' in Source.SelectRecord (the default).
+# ---------------------------------------------------------------------------
+# Brand
+# Keywords
+# Description
+# Alt Text
+
+# One language only, ignoring other locales:
+#   Keywords => field:Keywords@<language-id>
+# The language-neutral ID has a shorthand:
+#   Keywords => field:Keywords@neutral
+
+# Every field name on the record, joined - useful once, for discovery:
+#   AllFieldNames => fields.items[*].fieldName
