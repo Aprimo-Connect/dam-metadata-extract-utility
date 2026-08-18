@@ -12,6 +12,17 @@ One NuGet dependency: `System.Security.Cryptography.ProtectedData`, which backs 
 DPAPI-encrypted credential store. `System.Text.Json` ships with the framework and the
 CSV writer is hand-rolled, so nothing else is needed.
 
+### Aprimo's Open Source Policy 
+This code is provided by Aprimo _as-is_ as an example of how you might solve a specific business problem. It is not intended for direct use in Production without modification.
+
+You are welcome to submit issues or feedback to help us improve visibility into potential bugs or enhancements. Aprimo may, at its discretion, address minor bugs, but does not guarantee fixes, vulnerability remediation or ongoing support.
+
+It is expected that developers who clone or use this code take full responsibility for supporting, maintaining, securing, and vulnerability management of any deployments derived from it.
+
+If you are interested in a production-ready and supported version of this solution, please contact your Aprimo account representative. They can connect you with our technical services team or a partner who may be able to build and support a packaged implementation for you.
+
+Please note: This code may include references to non-Aprimo services or APIs. You are responsible for acquiring any required credentials or API keys to use those services—Aprimo does not provide them.
+
 ## Status
 
 Builds clean on .NET SDK 8.0.423 — Debug and Release, **0 warnings, 0 errors**.
